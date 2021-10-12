@@ -37,6 +37,62 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "release",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "-c",
+                "Release",
+                "${workspaceFolder}/Queryoont.csproj",
+            ],
+            "problemMatcher": "$msCompile",
+        },
+        {
+            "label": "pack",
+            "command": "nuget",
+            "type": "process",
+            "args": [
+                "pack",
+                "${workspaceFolder}/Queryoont.nuspec",
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": [
+                "release"
+            ],
+        },
+        {
+            "label": "github",
+            "command": "nuget",
+            "type": "process",
+            "args": [
+                "push",
+                "-Source",
+                "GitHub",
+                "-ApiKey",
+                "${input:key}",
+                "${workspaceFolder}/Queryoont.${input:nupkg}.nupkg",
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOn": [
+                "pack"
+            ]
         }
+    ],
+    "inputs": [
+        {
+            "id": "nupkg",
+            "description": "nupkg version:",
+            "default": "1.0.0",
+            "type": "promptString"
+        },
+        {
+            "id": "key",
+            "description": "key:",
+            "default": "",
+            "type": "promptString"
+        },
     ]
 }
