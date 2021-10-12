@@ -1,22 +1,28 @@
-using Microsoft.AspNetCore.Builder;
+using System;
 using Microsoft.Extensions.DependencyInjection;
-using Queryoont.Infrastructure;
-using Queryoont.Middleware;
+using Queryoont.Serialization;
 
 namespace Queryoont.Extensions
 {
     public static class AppExtensions
     {
-        public static IApplicationBuilder UseQueryoont(this IApplicationBuilder app)
-        {
-            app.UseMiddleware<SqlQuery>();
-            return app;
-        }
-
         public static IServiceCollection AddQueryoont(this IServiceCollection services)
         {
-            services.AddTransient<IQueryHandler, QueryHandler>();
+            services.AddSingleton<IJsonSerializer, JsonSerializer>();
             return services;
         }
+
+        public static IServiceCollection AddQueryoont(this IServiceCollection services, IJsonSerializer serializer)
+        {
+            services.AddSingleton(serializer);
+            return services;
+        }
+
+        public static IServiceCollection AddQueryoont(this IServiceCollection services, Func<IJsonSerializer> serializer)
+        {
+            services.AddSingleton(serializer);
+            return services;
+        }
+
     }
 }

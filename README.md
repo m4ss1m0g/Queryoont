@@ -2,7 +2,7 @@
 
 The Queryoont is a _minimal_ framework to use SQL with ASP.NET Core API in a dynamic way, you can issue statement from the client using a POST request, specifying the SELECT and WHERE.
 
-The Queryoont uses the mediator pattern with [MediatR](https://github.com/jbogard/MediatR), you should create a request command and a request handler to obtain the base [SqlKata](https://sqlkata.com/) Query, next the middleware grab the query and apply the body request filter and select to the query.
+Use the `QueryoontAttribute` to decorate your controller action method to obtain the base [SqlKata](https://sqlkata.com/) Query, next the Queryoont apply the body request filter to the query.
 
 ## DISCLAIMER
 
@@ -11,89 +11,35 @@ Actually, you can **ONLY** specify the `WHERE` and the fields on `SELECT`.
 
 ## Setup the Queries
 
-Create a MediatR command request
+Decorate the controller action method with `HttpPost` and  `QueryoontFilter`
 
 ``` csharp
-public class MyQuery : IRequest<Query>
-{
-    
-}
-```
-
-Create the corresponding handler
-
-``` csharp
-public class MyQueryHandler : IRequestHandler<MyQuery, Query>
-{
-    public async Task<Query> Handle(MyQuery request, CancellationToken cancellationToken)
-    {
-        var query = new Query("table").Where("Id", ">", 10);
-        return await Task.FromResult(query);
-    }
-}
-```
-
-Decorate the controller action with the `Queryoont` attribute and setup the name of the command
-
-```csharp
 [HttpPost]
-[Queryoont(typeof(MyQuery))]
-public Query GetRecords()
+[QueryoontFilter]
+public Query GetCustomer()
 {
-    throw new NotImplementedException();
+    return new Query("Customers");
 }
 ```
 
 ## Startup
 
-On the startup configure the QueryBuilder and MediatR, below is a configuration for the SqlServer.
-This setup is left to the user to permit the maximum level of flexibility.
+On the startup configure the `QueryBuilder` class of SqlKata below is a configuration for the SqlServer.
 
 ``` csharp
-public static IServiceCollection AddQueryoontServices(this IServiceCollection services, IConfiguration configuration)
+
+// Configure SQL Server with SqlKata
+var connectionString = Configuration.GetConnectionString("ConnectionStringName");
+services.AddTransient<IDbConnection>((s) => new SqlConnection(connectionString));
+services.AddTransient<QueryFactory>((s) =>
 {
-    var connectionString = configuration.GetConnectionString("ConnectionStringName");
-    
-    services.AddTransient<IDbConnection>((s) => new SqlConnection(connectionString));
-    services.AddTransient<QueryFactory>((s) =>
-    {
-        var compiler = new SqlServerCompiler();
-        return new QueryFactory(s.GetService<IDbConnection>(), compiler);
-    });
+    var compiler = new SqlServerCompiler();
+    return new QueryFactory(s.GetService<IDbConnection>(), compiler);
+});
 
-    // Configure the MediatR based on the assembly containing the Query
-    services.AddMediatR(typeof(Startup));
+// Add Queryoont services
+services.AddQueryoont();
 
-    return services;
-}
-```
-
-Next you should configure the app to use the Middleware and the services
-
-``` csharp
-public void ConfigureServices(IServiceCollection services)
-{
-    // See above: You should register the QueryFactory and MediatR queries
-    services.AddQueryoontServices(Configuration);
-    
-    // This register the internal classes
-    services.AddQueryoont(); 
-}
-```
-
-``` csharp
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-{
-    // [..]
-
-    app.UseRouting();
-
-    app.UseAuthorization();
-
-    app.UseQueryoont(); // Add the Queryoont middleware
-
-    // [..]
-}
 ```
 
 ## Request Body on POST
@@ -198,22 +144,25 @@ A simple example
 ``` sql
 CREATE TABLE Table1
 (
-    ID INT NOT NULL PRIMARY KEY,
-    NAME VARCHAR(50)
+    [ID] INT NOT NULL PRIMARY KEY,
+    [NAME] VARCHAR(50),
+    [EMAIL] VARCHAR(100)
 )
 ```
 
 ``` csharp
-// The query returned by the handler
-var query = new Query("table1");
-return query;
+[HttpPost]
+[QueryoontFilter]
+public Query GetCustomer()
+{
+    return new Query("table1");
+}
 ```
 
 ``` jsonc
 {
     "version": 1.0,
     "select": [
-        "table1.Id",
         "table1.Name"
     ],
     "filter": [
@@ -231,10 +180,45 @@ This is translated into this SQL
 
 ``` SQL
 SELECT 
-     table1.Id
-    ,table1.Name
+    table1.Name
 FROM
     table1
 WHERE 
     table.Id < 20
 ```
+
+And the corresponding json
+
+``` json
+[
+     {
+        "name": "name 1"
+     },
+     {
+        "name": "name 2"
+     }
+]
+```
+
+## Json Serialization
+
+Adding `services.AddQueryoont()` configure the framework to use [Json.NET](https://www.newtonsoft.com/json) to take care of _Serialization_ and _Deserialization_. If you want to customize the process of Serialization/Deserialization you could implement the inserface `IJsonSerializer` of the framework and add it to the _serviceCollection_ using the overload of `services.AddQueryoont()` or by remove the call and adding it to the serviceCollections.
+
+## Know issues with `System.Text.Json`
+
+There are some issues when using System.Text.Json
+
+### Writing
+
+If you use the `System.Text.Json` the default is to serialize on PascalCase the `Dictionary` keys (the result of SqlKata is a `DapperRow` that is a `dynamic` object that is a `Dictionary<string,object>`), if you want the camelCase with `System.Text.Json` you should configure the JsonOptions like this
+
+``` csharp
+services.AddControllers()
+    .AddJsonOptions(o =>
+        o.JsonSerializerOptions.DictionaryKeyPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+    );
+```
+
+### Reading
+
+When deserialize _object_ properties the `System.Text.Json` adds _ValueKind_ to value property, you must take care of it [See this GiHub issue](https://github.com/dotnet/runtime/issues/31408)
