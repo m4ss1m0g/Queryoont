@@ -1,0 +1,46 @@
+name: Build .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+    # Build and Test
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/Queryoont
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: ./src/Queryoont
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: ./test/Queryoont.Test
+      # NuGet version from nuspec
+    - name: Get package version
+      id: getnuspec
+      uses: mavrosxristoforos/get-xml-info@1.0
+      with:
+        xml-file: 'src/Queryoont/Queryoont.nuspec'
+        xpath: '//package/metadata/version'
+      # NuGet build and publish
+    - name: Setup NuGet.exe for use with actions
+      uses: NuGet/setup-nuget@v1.0.5
+      with:
+         nuget-api-key: ${{ secrets.NUGET_APIKEY }}
+    - name: Create .nupkg
+      run: nuget pack Queryoont.nuspec
+      working-directory: ./src/Queryoont
+    - name: Publish package
+      run: nuget push Queryoont.${{steps.getnuspec.outputs.info}}.nupkg -Source https://api.nuget.org/v3/index.json
+      working-directory: ./src/Queryoont
+
