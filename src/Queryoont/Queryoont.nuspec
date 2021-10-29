@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Queryoont</id>
-    <version>0.1.4</version>
+    <version>0.2.0</version>
     <title>Queryoont</title>
     <authors>mgiambona</authors>
     <owners>mgiambona</owners>
@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/m4ss1m0g/Queryoont/</projectUrl>
     <repository type="git" url="https://github.com/m4ss1m0g/Queryoont.git" />
     <description>With this package you can issue SQL queries from .NET Core API to backend using SqlKata (Dapper)</description>
-    <releaseNotes>Initial release</releaseNotes>
+    <releaseNotes>Added FilterAction</releaseNotes>
     <copyright>Copyright 2021</copyright>
     <icon>images\logo.png</icon>
     <tags>Sql SqlKata Rest OData GraphQL Dapper</tags>
