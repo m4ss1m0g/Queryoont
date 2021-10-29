@@ -200,6 +200,32 @@ And the corresponding json
 ]
 ```
 
+## Filter Actions
+
+You can customize the output of the query by implement the interface `IFilterAction`and pass the class type to the `FilterAction` property on the attribute.
+
+``` csharp
+public class MyFilterAction : IFilterAction
+{
+    public Task<IEnumerable<MyOutput>> AfterQueryAsync(IEnumerable<dynamic> rows)
+    {
+        // Code goes here
+        // Called AFTER the query is executed
+    }
+}
+```
+
+Pass the class to the framework using the attribute
+
+``` csharp
+[QueryoontFilter(FilterAction = typeof(MyFilterAction))]
+[HttpPost]
+public Query GetQuery()
+{
+    return new Query("db.Customers");
+}
+```
+
 ## Json Serialization
 
 Adding `services.AddQueryoont()` configure the framework to use [Json.NET](https://www.newtonsoft.com/json) to take care of _Serialization_ and _Deserialization_. If you want to customize the process of Serialization/Deserialization you could implement the inserface `IJsonSerializer` of the framework and add it to the _serviceCollection_ using the overload of `services.AddQueryoont()` or by remove the call and adding it to the serviceCollections.
