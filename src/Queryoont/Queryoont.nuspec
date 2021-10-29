@@ -13,7 +13,7 @@
     <description>With this package you can issue SQL queries from .NET Core API to backend using SqlKata (Dapper)</description>
     <releaseNotes>Initial release</releaseNotes>
     <copyright>Copyright 2021</copyright>
-    <icon>images\logo.png</icon>
+    <icon>Images\logo.png</icon>
     <tags>Sql SqlKata Rest OData GraphQL Dapper</tags>
     <dependencies>
       <group targetFramework="netcoreapp3.1">
