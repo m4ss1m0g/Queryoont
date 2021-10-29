@@ -31,7 +31,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="images\logo.png" target="images\"/>
+    <file src="Images\logo.png" target="Images\"/>
     <file src="bin\release\netcoreapp3.1\Queryoont.dll" target="lib\netcoreapp3.1" />
     <file src="bin\release\net5.0\Queryoont.dll" target="lib\net5.0" />
   </files>
