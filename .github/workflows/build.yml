@@ -38,7 +38,7 @@ jobs:
       with:
          nuget-api-key: ${{ secrets.NUGET_APIKEY }}
     - name: Create .nupkg
-      run: nuget pack ./Queryoont.nuspec
+      run: nuget pack Queryoont.nuspec
       working-directory: ./src/Queryoont
     - name: Publish package
       run: nuget push Queryoont.${{steps.getnuspec.outputs.info}}.nupkg -Source https://api.nuget.org/v3/index.json
