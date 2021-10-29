@@ -12,7 +12,7 @@ jobs:
     steps:
     # Build 5
     - uses: actions/checkout@v2
-    - name: Setup .NET 5
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
@@ -20,20 +20,8 @@ jobs:
       run: dotnet restore
       working-directory: ./src/Queryoont
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c release
       working-directory: ./src/Queryoont
-    # Build 3
-    - uses: actions/checkout@v2
-    - name: Setup .NET 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: ./src/Queryoont
-    - name: Build
-      run: dotnet build --no-restore
-      working-directory: ./src/Queryoont    
     # Test
     - name: Test
       run: dotnet test --no-build --verbosity normal
