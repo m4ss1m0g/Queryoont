@@ -36,11 +36,11 @@ jobs:
       # NuGet build and publish
     - name: Setup NuGet.exe for use with actions
       uses: NuGet/setup-nuget@v1.0.5
+      with:
+         nuget-api-key: ${{ secrets.NUGET_APIKEY }}
     - name: Create .nupkg
       run: nuget pack Queryoont.nuspec
       working-directory: ./src/Queryoont
-    - name: Set ApiKey
-      run: nuget setApiKey ${{ secrets.NUGET_APIKEY }}
     - name: Publish package
       run: nuget push Queryoont.${{steps.getnuspec.outputs.info}}.nupkg -Source https://api.nuget.org/v3/index.json
       working-directory: ./src/Queryoont
