@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F8099CC4-7C74-452A-A86A-B0B2BAFFC148}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queryoont", "src\Queryoont\Queryoont.csproj", "{37AFE71A-37C6-4DF6-A19B-13F483B09CEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EB1BE382-73D6-4D0F-9C3E-01EA29227309}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queryoont.Test", "test\Queryoont.Test\Queryoont.Test.csproj", "{31A9E9B5-E47D-4D24-A04E-D46DEBB007F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{B021740F-7EF3-4EAB-803F-D1AC2E980CCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queryoont.Api", "example\Queryoont.Api\Queryoont.Api.csproj", "{4692720C-E6B0-4857-934A-DFC126E9FB95}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37AFE71A-37C6-4DF6-A19B-13F483B09CEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37AFE71A-37C6-4DF6-A19B-13F483B09CEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37AFE71A-37C6-4DF6-A19B-13F483B09CEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37AFE71A-37C6-4DF6-A19B-13F483B09CEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A9E9B5-E47D-4D24-A04E-D46DEBB007F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A9E9B5-E47D-4D24-A04E-D46DEBB007F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A9E9B5-E47D-4D24-A04E-D46DEBB007F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A9E9B5-E47D-4D24-A04E-D46DEBB007F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4692720C-E6B0-4857-934A-DFC126E9FB95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4692720C-E6B0-4857-934A-DFC126E9FB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4692720C-E6B0-4857-934A-DFC126E9FB95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4692720C-E6B0-4857-934A-DFC126E9FB95}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37AFE71A-37C6-4DF6-A19B-13F483B09CEE} = {F8099CC4-7C74-452A-A86A-B0B2BAFFC148}
+		{31A9E9B5-E47D-4D24-A04E-D46DEBB007F2} = {EB1BE382-73D6-4D0F-9C3E-01EA29227309}
+		{4692720C-E6B0-4857-934A-DFC126E9FB95} = {B021740F-7EF3-4EAB-803F-D1AC2E980CCD}
+	EndGlobalSection
+EndGlobal

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Queryoont</id>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <title>Queryoont</title>
     <authors>mgiambona</authors>
     <owners>mgiambona</owners>
@@ -11,21 +11,21 @@
     <projectUrl>https://github.com/m4ss1m0g/Queryoont/</projectUrl>
     <repository type="git" url="https://github.com/m4ss1m0g/Queryoont.git" />
     <description>With this package you can issue SQL queries from .NET Core API to backend using SqlKata (Dapper)</description>
-    <releaseNotes>Added FilterAction</releaseNotes>
-    <copyright>Copyright 2021</copyright>
+    <releaseNotes>Updated packages</releaseNotes>
+    <copyright>Copyright 2022</copyright>
     <icon>Images\logo.png</icon>
     <tags>Sql SqlKata Rest OData GraphQL Dapper</tags>
     <dependencies>
       <group targetFramework="netcoreapp3.1">
         <dependency id="Dawn.Guard" version="1.12.0" />
-        <dependency id="SqlKata" version="2.3.7" />
-        <dependency id="SqlKata.Execution" version="2.3.7" />
+        <dependency id="SqlKata" version="3.2.3" />
+        <dependency id="SqlKata.Execution" version="3.2.3" />
         <dependency id="Newtonsoft.Json" version="13.0.1" />
       </group>
       <group targetFramework="net5.0">
         <dependency id="Dawn.Guard" version="1.12.0" />
-        <dependency id="SqlKata" version="2.3.7" />
-        <dependency id="SqlKata.Execution" version="2.3.7" />
+        <dependency id="SqlKata" version="3.2.3" />
+        <dependency id="SqlKata.Execution" version="3.2.3" />
         <dependency id="Newtonsoft.Json" version="13.0.1" />
       </group>
     </dependencies>
@@ -33,6 +33,6 @@
   <files>
     <file src="Images\logo.png" target="Images\"/>
     <file src="bin\release\netcoreapp3.1\Queryoont.dll" target="lib\netcoreapp3.1" />
-    <file src="bin\release\net5.0\Queryoont.dll" target="lib\net5.0" />
+    <file src="bin\release\net6.0\Queryoont.dll" target="lib\net6.0" />
   </files>
 </package>
